@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Ludo ZingX</title>
+  <link rel="stylesheet" href="style.css">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3940256099942544"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+  <!-- WELCOME REWARD MODAL -->
+  <div id="welcomeRewardModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="win-trophy">🎁</div>
+      <div class="modal-title">Welcome Gift!</div>
+      <p style="color:#C4A87A; margin-bottom:20px;">Watch a quick video to claim your 10 🪙 starter bonus!</p>
+      <div id="welcomeVideoContainer"
+        style="display:none; background:#000; border-radius:12px; height:180px; margin-bottom:16px; align-items:center; justify-content:center; position:relative; overflow:hidden;">
+        <div style="color:#fff; font-size:0.9rem;">📺 Playing Reward Video...</div>
+        <div id="welcomeVideoProgress"
+          style="position:absolute; bottom:0; left:0; height:4px; background:#E8C96B; width:0%;"></div>
+      </div>
+      <button id="welcomeClaimBtn" class="mode-btn" style="justify-content:center; width:100%;"
+        onclick="startWelcomeVideo()">
+        🎬 Watch & Claim 10 🪙
+      </button>
+    </div>
+  </div>
+
+  <!-- COIN STORE MODAL -->
+  <div id="storeModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-title">🪙 Coin Store</div>
+      <div class="coin-balance-big">Balance: <span id="storeCoins">0</span> 🪙</div>
+      <div class="store-items">
+        <div class="store-item">
+          <div class="store-icon">📺</div>
+          <div class="store-label">Watch Ad</div>
+          <div class="store-reward">+10 🪙</div>
+          <button class="store-btn" onclick="watchAd()">Watch</button>
+        </div>
+        <div class="store-item featured">
+          <div class="store-icon">💰</div>
+          <div class="store-label">500 Coins Pack</div>
+          <div class="store-reward">500 🪙</div>
+          <button class="store-btn gold" onclick="buyCoins500()">Buy $0.99</button>
+        </div>
+        <div class="store-item">
+          <div class="store-icon">🎲</div>
+          <div class="store-label">Premium Dice</div>
+          <div class="store-reward">Unlock All</div>
+          <button class="store-btn" onclick="buyDiceSkin()">1 Dice = 50🪙</button>
+        </div>
+      </div>
+      <div class="dice-skins-row" id="diceSkinRow"></div>
+      <button class="modal-close" onclick="closeModal('storeModal')">✕ Close</button>
+    </div>
+  </div>
+
+  <!-- MODE SELECT MODAL -->
+  <div id="modeModal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <div class="modal-title">⚡ LUDO ZINGX</div>
+      <div class="mode-subtitle">Select Game Mode</div>
+      <div class="mode-grid">
+        <button class="mode-btn" onclick="startGame(1)">
+          <div class="mode-icon">🤖</div>
+          <div class="mode-text">
+            <div class="mode-title">1 Player vs AI</div>
+            <div class="mode-desc">2 players only (User + AI)</div>
+          </div>
+        </button>
+        <button class="mode-btn" onclick="startGame(2)">
+          <div class="mode-icon">👥</div>
+          <div class="mode-text">
+            <div class="mode-title">2 Players</div>
+            <div class="mode-desc">2 players only</div>
+          </div>
+        </button>
+        <button class="mode-btn" onclick="startGame(3)">
+          <div class="mode-icon">👨‍👩‍👦</div>
+          <div class="mode-text">
+            <div class="mode-title">3 Players</div>
+            <div class="mode-desc">3 players only</div>
+          </div>
+        </button>
+        <button class="mode-btn" onclick="startGame(4)">
+          <div class="mode-icon">🎮</div>
+          <div class="mode-text">
+            <div class="mode-title">4 Players</div>
+            <div class="mode-desc">All 4 players</div>
+          </div>
+        </button>
+      </div>
+      <div class="mode-coins">🪙 <span id="menuCoins">0</span> coins</div>
+      <button class="store-open-btn" onclick="openModal('storeModal')">🛒 Coin Store</button>
+    </div>
+  </div>
+
+  <!-- WIN MODAL -->
+  <div id="winModal" class="modal-overlay hidden">
+    <div class="modal-box win-box">
+      <div class="win-trophy">🏆</div>
+      <div class="win-title" id="winTitle">Red Wins!</div>
+      <div class="win-coins">+50 🪙 Bonus!</div>
+      <button class="mode-btn" style="margin-top:16px" onclick="backToMenu()">🏠 Main Menu</button>
+      <button class="mode-btn" style="margin-top:8px" onclick="restartSameMode()">🔄 Play Again</button>
+    </div>
+  </div>
+
+  <!-- MAIN GAME -->
+  <div class="game-hub" id="gameHub" style="display:none">
+
+    <!-- ===== UNIFIED HUD ===== -->
+    <div class="game-hud">
+      <div class="hud-top-row">
+        <button class="hud-home-btn" id="hudHomeBtn" onclick="backToMenu()">🏠</button>
+        <div class="hud-title">LUDO ZINGX</div>
+        <div class="hud-right-actions">
+          <button class="hud-shield-btn" id="shieldBtn" onclick="buyShield()" title="Buy Shield (50 Coins)">🛡️</button>
+          <div class="hud-wallet" onclick="openModal('storeModal')">
+            <span class="hud-wallet-icon">🪙</span>
+            <span class="hud-wallet-val" id="topCoins">0</span>
+            <span class="hud-wallet-label">Coins</span>
+          </div>
+        </div>
+      </div>
+      <div class="hud-players" id="playerTabs"></div>
+    </div>
+
+    <div class="board-wrap">
+      <canvas id="gameCanvas"></canvas>
+    </div>
+
+    <div class="dice-panel">
+      <div class="dice-3d-wrap" id="diceWrap">
+        <canvas id="diceCanvas" width="72" height="72"></canvas>
+      </div>
+      <button class="roll-btn" id="rollBtn" onclick="onRollClick()">🎲 ROLL</button>
+      <div class="status-msg" id="statusMsg">Roll the dice!</div>
+    </div>
+
+
+
+    <div class="ad-banner-wrap">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-3940256099942544" data-ad-slot="6300978111"
+        data-ad-format="auto" data-full-width-responsive="true"></ins>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
